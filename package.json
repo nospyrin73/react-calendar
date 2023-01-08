@@ -1,6 +1,6 @@
 {
-  "name": "react-calendar",
-  "version": "4.0.0",
+  "name": "iui-react-calendar",
+  "version": "4.2.1",
   "description": "Ultimate calendar for your React app.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -19,7 +19,6 @@
     "copy-styles": "node ./copy-styles.js",
     "jest": "jest",
     "lint": "eslint sample src test --ext .jsx,.js",
-    "postinstall": "husky install",
     "prepack": "yarn clean && yarn build",
     "prettier": "prettier --check . --cache",
     "test": "yarn lint && yarn prettier && yarn jest"
