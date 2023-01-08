@@ -172,6 +172,8 @@ export default class Calendar extends Component {
     view: this.props.defaultView,
   };
 
+  initialDate = '';
+
   get activeStartDate() {
     const { activeStartDate: activeStartDateProps } = this.props;
     const { activeStartDate: activeStartDateState } = this.state;
@@ -605,8 +607,111 @@ export default class Calendar extends Component {
     );
   }
 
+  getMonths = (initialDate) => {
+    const currentDate = new Date(initialDate);
+    const months = [];
+    const monthHeading = [];
+    for (let i = 0; i < 13; i++) {
+      const month = new Date(currentDate);
+      month.setMonth(month.getMonth() + i);
+      months.push(month);
+      const monthYear = month.toLocaleString("en-US", { month: "long", year: "numeric" });
+      monthHeading.push(monthYear);
+    }
+    return {
+      months, monthHeading
+    };
+  }
+
+  showMonthView = (initialDate) => {
+      const { onMouseOver, valueType, value, view } = this;
+      const {
+        calendarType,
+        locale,
+        maxDate,
+        minDate,
+        selectRange,
+        tileClassName,
+        tileContent,
+        tileDisabled,
+      } = this.props;
+      const { hover } = this;
+
+      const { months, monthHeading } = this.getMonths(initialDate);
+      const onClick = this.drillDownAvailable ? this.drillDown : this.onChange;
+      const { onMouseLeave } = this;
+
+      const {
+        formatDay,
+        formatLongDate,
+        formatShortWeekday,
+        formatWeekday,
+        onClickWeekNumber,
+        showDoubleView,
+        showFixedNumberOfWeeks,
+        showNeighboringMonth,
+        showWeekNumbers,
+      } = this.props;
+
+      let commonProps = {
+        hover,
+        locale,
+        maxDate,
+        minDate,
+        onClick,
+        onMouseOver: selectRange ? onMouseOver : null,
+        tileClassName,
+        tileContent,
+        tileDisabled,
+        value,
+        valueType,
+      };
+
+      return months.map((month, index) => {
+        const activeStartDate = getBegin(view, month);
+
+        commonProps = { ...commonProps, activeStartDate };
+
+        return (
+          <div key={`month-view--${index}`}>
+            <div className='month-view--heading'>{monthHeading[index]}</div>
+            <MonthView
+              calendarType={calendarType}
+              formatDay={formatDay}
+              formatLongDate={formatLongDate}
+              formatShortWeekday={formatShortWeekday}
+              formatWeekday={formatWeekday}
+              onClickWeekNumber={onClickWeekNumber}
+              onMouseLeave={selectRange ? onMouseLeave : null}
+              showFixedNumberOfWeeks={
+                typeof showFixedNumberOfWeeks !== 'undefined'
+                  ? showFixedNumberOfWeeks
+                  : showDoubleView
+              }
+              showNeighboringMonth={showNeighboringMonth}
+              showWeekNumbers={showWeekNumbers}
+              {...commonProps}
+            />
+          </div>
+        );
+      })
+  }
+
+  renderActualContent = () => {
+    const { showDoubleView, showMonthView } = this.props;
+    if (!this.initialDate) {
+      this.initialDate = this.activeStartDate;
+    }
+    return showMonthView ? this.showMonthView(this.initialDate) : (
+      <>
+        {this.renderContent()}
+        {showDoubleView && this.renderContent(true)}
+      </>
+    );
+  }
+
   render() {
-    const { className, inputRef, selectRange, showDoubleView } = this.props;
+    const { className, inputRef, selectRange, showDoubleView, showMonthView } = this.props;
     const { onMouseLeave, value } = this;
     const valueArray = [].concat(value);
 
@@ -620,14 +725,13 @@ export default class Calendar extends Component {
         )}
         ref={inputRef}
       >
-        {this.renderNavigation()}
+        {showMonthView ? '' : this.renderNavigation()}
         <div
           className={`${baseClassName}__viewContainer`}
           onBlur={selectRange ? onMouseLeave : null}
           onMouseLeave={selectRange ? onMouseLeave : null}
         >
-          {this.renderContent()}
-          {showDoubleView && this.renderContent(true)}
+          {this.renderActualContent()}
         </div>
       </div>
     );
