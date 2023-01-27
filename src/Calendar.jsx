@@ -203,18 +203,6 @@ export default class Calendar extends Component {
     return valueProps !== undefined ? valueProps : valueState;
   }
 
-  get value() {
-    const { selectRange, value: valueProps } = this.props;
-    const { value: valueState } = this.state;
-
-    // In the middle of range selection, use value from state
-    if (selectRange && getIsSingleValue(valueState)) {
-      return valueState;
-    }
-
-    return valueProps !== undefined ? valueProps : valueState;
-  }
-
   get valueType() {
     const { maxDetail } = this.props;
 
