@@ -618,7 +618,7 @@ export default class Calendar extends Component {
   }
 
   getMonths = (initialDate) => {
-    const currentDate = new Date(initialDate);
+    const currentDate = getBegin('month', initialDate);
     const months = [];
     const monthHeading = [];
     for (let i = 0; i < 13; i++) {
