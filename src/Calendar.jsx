@@ -711,7 +711,7 @@ export default class Calendar extends Component {
   renderActualContent = () => {
     const { showDoubleView, showMonthView } = this.props;
     if (!this.initialDate) {
-      this.initialDate = this.activeStartDate;
+      this.initialDate = this.props.minDate || this.activeStartDate;
     }
     return showMonthView ? (
       this.showMonthView(this.initialDate)
