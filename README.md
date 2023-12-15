@@ -4,7 +4,9 @@
 [![React Version](https://img.shields.io/badge/React-%5E16.0.0-%2361DAFB)](https://reactjs.org/)
 [![npm Version](https://img.shields.io/badge/npm-%5E7.0.0-%23CB3837)](https://www.npmjs.com/)
 
-## Overview
+<div align="center">
+  <img width="436" height="398" src="https://projects.wojtekmaj.pl/react-calendar/react-calendar.jpg">
+</div>
 
 This is a customized fork of the popular `react-calendar` library with several additional features for enhanced flexibility and customization. Created for use in [Novatours](https://novaturas.lt/) project
 
