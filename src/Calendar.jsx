@@ -19,6 +19,7 @@ import {
   isView,
 } from './shared/propTypes';
 import { between } from './shared/utils';
+import { formatMonthYear } from './shared/dateFormatter';
 
 const defaultMinDate = new Date();
 defaultMinDate.setFullYear(1, 0, 1);
@@ -618,6 +619,7 @@ export default class Calendar extends Component {
   }
 
   getMonths = (initialDate) => {
+    const { locale } = this.props;
     const currentDate = getBegin('month', initialDate);
     const months = [];
     const monthHeading = [];
@@ -625,7 +627,7 @@ export default class Calendar extends Component {
       const month = new Date(currentDate);
       month.setMonth(month.getMonth() + i);
       months.push(month);
-      const monthYear = month.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      const monthYear = formatMonthYear(locale, month)
       monthHeading.push(monthYear);
     }
     return {
