@@ -1,5 +1,5 @@
 {
-  "name": "iui-react-calendar",
+  "name": "nova-react-calendar",
   "version": "4.2.6",
   "description": "Ultimate calendar for your React app.",
   "main": "dist/cjs/index.js",
