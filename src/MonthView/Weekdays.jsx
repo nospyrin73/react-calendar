@@ -22,6 +22,7 @@ export default function Weekdays(props) {
     formatWeekday = defaultFormatWeekday,
     locale,
     onMouseLeave,
+    isSticky
   } = props;
 
   const anyDate = new Date();
@@ -46,7 +47,7 @@ export default function Weekdays(props) {
         className={clsx(
           weekdayClassName,
           isCurrentDayOfWeek(weekdayDate) && `${weekdayClassName}--current`,
-          isWeekend(weekdayDate, calendarType) && `${weekdayClassName}--weekend`,
+          isWeekend(weekdayDate, calendarType) && `${weekdayClassName}--weekend`
         )}
       >
         <abbr aria-label={abbr} title={abbr}>
@@ -57,7 +58,10 @@ export default function Weekdays(props) {
   }
 
   return (
-    <Flex className={className} count={7} onFocus={onMouseLeave} onMouseOver={onMouseLeave}>
+    <Flex className={clsx(
+      className,
+      isSticky && `${weekdayClassName}--sticky`
+    )} count={7} onFocus={onMouseLeave} onMouseOver={onMouseLeave}>
       {weekdays}
     </Flex>
   );

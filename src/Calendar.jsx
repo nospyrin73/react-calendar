@@ -7,6 +7,7 @@ import CenturyView from './CenturyView';
 import DecadeView from './DecadeView';
 import YearView from './YearView';
 import MonthView from './MonthView';
+import Weekdays from './MonthView/Weekdays';
 
 import { getBegin, getBeginNext, getEnd, getValueRange } from './shared/dates';
 import {
@@ -646,7 +647,7 @@ export default class Calendar extends Component {
       selectRange,
       tileClassName,
       tileContent,
-      tileDisabled,
+      tileDisabled
     } = this.props;
     const { hover } = this;
 
@@ -664,6 +665,7 @@ export default class Calendar extends Component {
       showFixedNumberOfWeeks,
       showNeighboringMonth,
       showWeekNumbers,
+      showStickyWeekNumbers
     } = this.props;
 
     let commonProps = {
@@ -688,6 +690,16 @@ export default class Calendar extends Component {
       return (
         <div key={`month-view--${index}`}>
           <div className="month-view--heading">{monthHeading[index]}</div>
+          { showStickyWeekNumbers && index < 1 && (
+            <Weekdays
+              calendarType={calendarType}
+              formatShortWeekday={formatShortWeekday}
+              formatWeekday={formatWeekday}
+              locale={locale}
+              onMouseLeave={onMouseLeave}
+              isSticky
+            />
+          ) }
           <MonthView
             calendarType={calendarType}
             formatDay={formatDay}
